@@ -1,0 +1,7 @@
+0a a0 02 93 // li t0 0xaa
+0b b0 03 13 // li t1 0xbb
+00 62 84 63 // beq t0 t1 8
+00 80 00 ef // jal ra 8
+0f 00 02 93 // li t0 0xf0
+0f 10 03 13 // li t1 0xf1
+0f 20 03 93 // li t2 0xf2
