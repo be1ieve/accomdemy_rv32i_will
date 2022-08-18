@@ -4,12 +4,11 @@ module alu(
     input [16:0] full_op,
     input [31:0] in_value1,
     input [31:0] in_value2,
-    output reg jump_e,
     output reg [31:0] out_value
     );
     
     always @(*) begin
-        jump_e = 0; out_value = 32'b0;
+        out_value = 32'b0;
         case(full_op[6:0])
             7'b0110011, // rv32i r-type arithmetic
             7'b0010011: // rv32i i-type arithmetic
@@ -34,10 +33,7 @@ module alu(
                         if(full_op[16:10]==7'b0000000) out_value = in_value1 & in_value2;
                 endcase
             7'b1101111, // rv32i j-type jal
-            7'b1100111: begin // rv32i i-type jalr
-                out_value = in_value1 + in_value2;
-                jump_e = 1;
-            end
+            7'b1100111, // rv32i i-type jalr
             7'b0110111, // rv32i u-type lui
             7'b0010111, // rv32i u-type auipc
             7'b1100011: begin // rv32i b-type branch

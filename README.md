@@ -8,12 +8,12 @@ A workgroup implemention of simple RV32I simulation using verilog. The aim of th
 And finally is this repository, An implemention of RV32I CPU design.
 
 # Progress
-## Step 0
+## Stage 0
 Firstly, we must understand the CPU structure, tools we will be using, and the goal we're reaching.
 * Understand computer history and general PC architecture.
 * Learning verilog from examples and online courses.
 * Introduction to Vivado.
-## Step 1
+## Stage 1
 In this stage we learn how to create modules using verilog. Here we use vivado as FPGA programming tool.
 * Simple ALU with ADD, SUB, AND, OR, etc.
 ## Stage 2

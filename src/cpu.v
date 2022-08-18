@@ -20,12 +20,10 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module cpu_pdra_tb(
-
+module cpu(
+        input clk,
+        input reset
     );
-
-    reg clk;
-    reg reset_pc;
 
     wire branch_e, jump_e;
     wire [31:0] pc_in, pc_out, next_pc;
@@ -53,16 +51,6 @@ module cpu_pdra_tb(
 
     mux4to1_32 rd_sw({1'b0, branch_e}, alu_out, next_pc, 32'b0, 32'b0, rd_v); // 00: alu_out, 01: next_pc, 10: memory_out, 11: invalid
 
-    initial begin // clock generator
-        clk = 0; reset_pc = 1;
-        #1 reset_pc = 0;
-        forever begin
-            #1 clk = ~clk;
-        end
-    end
-
-    initial begin // timer
-        #20 $stop;
-    end
+    
 
 endmodule
