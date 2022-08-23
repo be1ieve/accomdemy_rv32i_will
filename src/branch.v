@@ -21,30 +21,30 @@
 
 
 module branch(
-    input [16:0] full_inst,
+    input [9:0] branch_inst,
     input [31:0] rs1_v,
     input [31:0] rs2_v,
     output reg branch_e
     );
     
     always @(*) begin
-        case(full_inst[6:0])
+        case(branch_inst[6:0])
             7'b1100011: begin // rv32i b-type branch
-                case(full_inst[9:7])
+                case(branch_inst[9:7])
                     3'b000: // beq
-                        //if (rs1_v == rs2_v) branch_e = 1'b1;
-                        //else branch_e = 1'b0;
-                        branch_e = rs1_v ^ rs2_v;
+                        branch_e = (rs1_v == rs2_v) ? 1 : 0;
                     3'b001: // bne
-                        branch_e = ~(rs1_v ^ rs2_v);
+                        branch_e = (rs1_v == rs2_v) ? 0 : 1;
                     3'b100: // blt
-                        branch_e = $signed(rs1_v) < $signed(rs2_v);
+                        branch_e = ($signed(rs1_v) < $signed(rs2_v)) ? 1 : 0;
                     3'b101: // bge
-                        branch_e = ~($signed(rs1_v) < $signed(rs2_v));
+                        branch_e = ($signed(rs1_v) < $signed(rs2_v)) ? 0 : 1;
                     3'b110: // bltu
-                        branch_e = rs1_v < rs2_v;
+                        branch_e = (rs1_v < rs2_v) ? 1 : 0;
                     3'b111: // bgeu
-                        branch_e = ~(rs1_v < rs2_v);
+                        branch_e = (rs1_v < rs2_v) ? 0 : 1;
+                    default:
+                        branch_e = 0;
                 endcase
             end
             default:

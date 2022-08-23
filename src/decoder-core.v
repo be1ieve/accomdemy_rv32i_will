@@ -57,7 +57,7 @@ module decoder_core(
                 jump_e = 0;
             end
             7'b0010011, // I-type arithmetic
-            7'b0010011, // I-type load
+            7'b0000011, // I-type load
             7'b1100111, // I-type jalr
             7'b1110011, // I-type ecall csr
             7'b0001111: begin // I-type fence

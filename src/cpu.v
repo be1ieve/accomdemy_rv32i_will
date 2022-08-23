@@ -47,7 +47,7 @@ module cpu(
     mux2to1_32 _immsw(imm_e, rs2_v, imm, value_2); // for alu in_value2
 
     alu _alu(full_inst, value_1, value_2, alu_out);
-    branch _branch(full_inst, rs1_v, rs2_v, branch_e);
+    branch _branch(full_inst[9:0], rs1_v, rs2_v, branch_e);
 
     mux4to1_32 _rdsw({1'b0, branch_e}, alu_out, next_pc, 32'b0, 32'b0, rd_v); // 00: alu_out, 01: next_pc, 10: memory_out, 11: invalid
 
