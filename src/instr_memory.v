@@ -25,6 +25,7 @@ module instr_memory(
     output reg [31:0] data
     );
     
+    reg [31:0] im_addr;
     reg [7:0] memory [0:1023]; // 1024 bits = 256 instructions
     
     initial begin
@@ -37,8 +38,11 @@ module instr_memory(
         //{memory[32'h14],memory[32'h15],memory[32'h16],memory[32'h17]} = 32'h0325b713; // sltiu a4 a1 50
     end
     
-    always @(*)begin
-        data = {memory[address], memory[address+1], memory[address+2], memory[address+3]}; // For $readmemh()
+    always @(*) begin
+        im_addr = address - 32'h00010000; // address shift for memory allocation
+        if (im_addr[31] == 0) // im address should be a postive value
+            data = {memory[im_addr], memory[im_addr+1], memory[im_addr+2], memory[im_addr+3]}; // For $readmemh()
+        else data = 32'b0;
         //data = {memory[address+3], memory[address+2], memory[address+1], memory[address]}; // For normal byte order
     end
     

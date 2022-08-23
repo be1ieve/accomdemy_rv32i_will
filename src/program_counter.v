@@ -29,11 +29,11 @@ module program_counter(
     );
 
     initial begin
-        pc_out = 32'b0;
+        pc_out = 32'h00010000; // For RISC-V, program address starts at 0x10000
     end
 
     always @(posedge clk) begin
-        if(rst) pc_out = 32'b0;
+        if(rst) pc_out <= 32'h00010000; // For RISC-V, program address starts at 0x10000
         else pc_out <= pc_in;
     end
     

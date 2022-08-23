@@ -32,6 +32,11 @@ Now we build the front half of the CPU, which stores instructions and runs accor
 This time we're doing one of the most important part of our computer: JUMP and BRANCH. which enables subroutine process.
 * Finish Program Counter module, with ability to branch and jump.
 
+## Stage 5.5
+This week I separate instruction memory module. Get ready for data memory.
+* New testbench with cpu module and im module.
+* Limit im address space to above 0x00010000, defined by RISC-V
+
 # Community Links
 For more information on this workgroup, see: [伴學松！！從0到有製作自己的CPU！！](https://hackmd.io/@accomdemy/BJprQ8Xjc/https%3A%2F%2Fhackmd.io%2F%40accomdemy%2FHJ-aO3JO9)<br/>
 For community disscusions on Discord, See [riscv-cpu-伴學松](https://discord.com/channels/838422912507052062/980146541736128552)<br/>
