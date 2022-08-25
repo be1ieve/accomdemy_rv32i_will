@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date: 2022/08/04 19:26:42
+// Create Date: 2022/08/07 16:17:36
 // Design Name: 
-// Module Name: mux4to1_32
+// Module Name: pc_adder
 // Project Name: 
 // Target Devices: 
 // Tool Versions: 
@@ -18,6 +18,29 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
+
+
+module adder_32(
+    input [31:0] value1,
+    input [31:0] value2,
+    output reg [31:0] out_value
+    );
+    
+    always @(*) begin
+        out_value = value1 + value2;
+    end
+    
+endmodule
+
+module or2to1_1bit(
+    input in1,
+    input in2,
+    output out
+    );
+    
+    assign out = in1 | in2;
+    
+endmodule
 
 module mux4to1_32(
     input [1:0] switch,
@@ -50,3 +73,4 @@ module mux2to1_32(
         else out = input0;
     end
 endmodule
+

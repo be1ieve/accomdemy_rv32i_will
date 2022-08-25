@@ -27,7 +27,7 @@ module cpu(
         output reg [31:0] im_addr // link to external im memory
     );
 
-    wire branch_e, jump_e;
+    wire branch_e, jump_e, jumpmux_e;
     wire [31:0] pc_in, pc_out, next_pc;
     wire rd_e, rs1_e, rs2_e, imm_e, pc_e;
     wire [4:0] rd, rs1, rs2;
@@ -36,7 +36,8 @@ module cpu(
     wire [31:0] value_1, value_2;
     wire [31:0] alu_out;
 
-    mux2to1_32 _jumpsw(jump_e, next_pc, alu_out, pc_in); // input switch for pc
+    or2to1_1bit _jumpsw(branch_e, jump_e, jumpmux_e); // jump pc when branch or jump
+    mux2to1_32 _jumpmux(jumpmux_e, next_pc, alu_out, pc_in); // input switch for pc
     adder_32 _pcadd(32'd4, pc_out, next_pc); // count next_pc, always +4 because no RV32C here.
     program_counter _pc(pc_in, reset, clk, pc_out); // hold output to sync with clk
 
@@ -49,7 +50,7 @@ module cpu(
     alu _alu(full_inst, value_1, value_2, alu_out);
     branch _branch(full_inst[9:0], rs1_v, rs2_v, branch_e);
 
-    mux4to1_32 _rdsw({1'b0, branch_e}, alu_out, next_pc, 32'b0, 32'b0, rd_v); // 00: alu_out, 01: next_pc, 10: memory_out, 11: invalid
+    mux4to1_32 _rdsw({1'b0, jump_e}, alu_out, next_pc, 32'b0, 32'b0, rd_v); // 00: alu_out, 01: next_pc, 10: memory_out, 11: invalid
 
     always @(posedge clk) begin
         im_addr <= pc_out;
