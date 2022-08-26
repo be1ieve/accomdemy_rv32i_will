@@ -99,7 +99,19 @@ module decoder_core(
                 pc_e = 1;
                 jump_e = 0;
             end
-            7'b0110111, //U-type lui
+            7'b0110111 : begin //U-type lui
+                full_inst = {10'b0, inst[6:0]}; // 10'b0 + opcode
+                rd_e = 1;
+                rd = inst[11:7];
+                rs1_e = 1;
+                rs1 = 5'b0; // force rs1_v to be X0, 32'b0
+                rs2_e = 0;
+                rs2 = 5'b0;
+                imm_e = 1;
+                imm = {inst[31:12], 12'b0};
+                pc_e = 0; // force alu in_value1 to use X0, 32'b0
+                jump_e = 0;
+            end
             7'b0010111 : begin // U-type auipc
                 full_inst = {10'b0, inst[6:0]}; // 10'b0 + opcode
                 rd_e = 1;
@@ -110,7 +122,7 @@ module decoder_core(
                 rs2 = 5'b0;
                 imm_e = 1;
                 imm = {inst[31:12], 12'b0};
-                pc_e = 1; // required by auipc, not used by lui
+                pc_e = 1;
                 jump_e = 0;
             end
             7'b1101111: begin // J-type jal
