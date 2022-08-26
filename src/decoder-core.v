@@ -58,7 +58,6 @@ module decoder_core(
             end
             7'b0010011, // I-type arithmetic
             7'b0000011, // I-type load
-            7'b1100111, // I-type jalr
             7'b1110011, // I-type ecall csr
             7'b0001111: begin // I-type fence
                 full_inst = {7'b0, inst[14:12], inst[6:0]}; // 7'b0 + func3 + opcode
@@ -136,6 +135,19 @@ module decoder_core(
                 imm_e = 1;
                 imm = {{12{inst[31]}}, inst[19:12], inst[20], inst[30:21], 1'b0};
                 pc_e = 1;
+                jump_e = 1;
+            end
+             7'b1100111: begin // I-type jalr
+                full_inst = {10'b0, inst[6:0]}; // 10'b0 + opcode
+                rd_e = 1;
+                rd = inst[11:7];
+                rs1_e = 1;
+                rs1 = inst[19:15];
+                rs2_e = 0;
+                rs2 = 5'b0;
+                imm_e = 1;
+                imm = {{20{inst[31]}}, inst[31:20]};
+                pc_e = 0;
                 jump_e = 1;
             end
             default: begin // all zero
